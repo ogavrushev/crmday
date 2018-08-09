@@ -5,36 +5,44 @@
 }
 
 body {
+    font-family: 'PT Sans', sans-serif;
     font-size: 3vh;
+    color: white;
 }
 
 #container {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-evenly;
     align-items: center;
     min-height: 100vh;
     min-width: 100vw;
-    background: url('/public/img/75.jpg') center center;
+    background: url('/img/75.jpg') center center;
     background-size: cover;
-    
+    position: relative;
+    padding: 40px 0;
 }
 
-#container main {
+header, main {
     max-width: 960px;
     width: 100%;
     padding: 0 40px;
 }
 
+.form__wrapper {
+    position: relative;
+}
+
 .form__logo {
-    background: url('/public/img/logo-w.svg') no-repeat center;
-    height: 15vh;
+    background: url('/img/logo.svg') no-repeat center;
+    width: 100%;
+    height: 16vh;
 }
 
 .form__fields {
     list-style: none;
     position: relative;
     z-index: 1;
-    padding: 20px;
 }
 
 .form__field {
@@ -72,19 +80,19 @@ body {
 
 .form__button {
     color: white;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
     width: 100%;
     max-width: 300px;
     height: 8vh;
+    line-height: 6vh;
     padding: 0 20px;
     background-color: #64dd17;
     border: 1px solid transparent;
     border-radius: 5px;
     box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
     font-size: 3vh;
+    font-weight: 500;
     float: right;
+    text-transform: uppercase;
 }
 
 .form__button:active {
@@ -96,9 +104,29 @@ body {
     background-color: grey;
 }
 
-.form__button__icon {
+.form__button span {
     display: inline-block;
-    background:url('/public/img/send.svg') no-repeat left;
+}
+
+.form__button__icon {
+    background:url('/img/send.svg') no-repeat left;
     width: 6vh;
     height: 6vh;
+}
+
+.hidden {
+    opacity: 0;
+}
+
+.thank__you {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 5vh;
 }
