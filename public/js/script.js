@@ -1,20 +1,20 @@
-(() => {
-
-    const KEY = uniqueId();
+(function () {
 
     function uniqueId() {
-        return Math.round((Math.random() * 36 ** 12)).toString(36);
+        return new Date().getUTCMilliseconds();
     }
 
+    var KEY = uniqueId();
+
     function showThankYou() {
-        let form = document.querySelector('.contact__form');
-        let thu = document.querySelector('.thank__you');
+        var form = document.querySelector('.contact__form');
+        var thu = document.querySelector('.thank__you');
 
         form.classList.toggle('hidden');
         thu.classList.toggle('hidden');
         form.reset();
 
-        setTimeout(() => {
+        setTimeout(function () {
             location.reload(true);
         }, 3000);
     }
@@ -22,18 +22,22 @@
     function post(data) {
         localStorage.KEY = data;
 
-        const request = new XMLHttpRequest();
+        alert('start post');
+
+        var request = new XMLHttpRequest();
         request.open("POST", "/save", true);
         request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-        request.onreadystatechange = () => {
+        request.onreadystatechange = function () {
             if (request.readyState !== request.DONE) {
                 console.log('Not done');
                 return;
             }
 
             if (request.status !== 200) {
+                alert(request.status + ': ' + request.statusText);
                 console.log(request.status + ': ' + request.statusText);
             } else {
+                alert('post completed');
                 localStorage.removeItem(KEY);
                 console.log(request.responseText);
             }
@@ -43,32 +47,24 @@
         showThankYou();
     }
 
-    function sendContacts(data) {
-        let dataJSON = {};
-
-        data.forEach(function(value, key){
-            dataJSON[key] = value;
-        });
-
-        post(JSON.stringify(dataJSON));
-    }
 
     function validate(data) {
-        let requiredFields = ['contact'].filter(field => {
-            return data.has(field) && data.get(field);
-        });
-
-        return requiredFields.length !== 0;
+        return !!data.contact;
     }
 
-    function onFormSubmit (e) {
+    function onFormSubmit(e) {
         console.log('form submition');
         e.preventDefault();
 
-        let data = new FormData(this);
+        var inputs = document.querySelectorAll('input');
+        var data = {};
+
+        inputs.forEach(function (input) {
+            data[input.name] = input.value;
+        });
 
         if (validate(data)) {
-            sendContacts(data);
+            post(JSON.stringify(data));
         }
 
         return false;
@@ -76,19 +72,19 @@
 
     function onDomReady() {
 
-        let form = document.querySelector('[data-js="js--contact-form-submit"]');
-        let key = document.querySelector('#form_key');
+        var form = document.querySelector('[data-js="js--contact-form-submit"]');
+        var key = document.querySelector('#form_key');
         key.value = KEY;
 
         form &&
-            form.addEventListener('submit', onFormSubmit);
+        form.addEventListener('submit', onFormSubmit);
 
         console.log('Dom ready...');
 
         setTimeout(function () {
-            let viewHeight = window.visualViewport.height;
-            let viewWidth = window.visualViewport.width;
-            let viewport = document.querySelector("meta[name=viewport]");
+            var viewHeight = window.visualViewport.height;
+            var viewWidth = window.visualViewport.width;
+            var viewport = document.querySelector("meta[name=viewport]");
             viewport.setAttribute("content", "height=" + viewHeight + "px, width=" + viewWidth + "px, initial-scale=1.0, user-scalable=no");
         }, 300);
 
@@ -97,20 +93,48 @@
     document.addEventListener('DOMContentLoaded', onDomReady);
 })();
 
-
 if ('serviceWorker' in navigator) {
-    window.addEventListener('load', function() {
+    window.addEventListener('load', function () {
         navigator.serviceWorker
             .register('/sw.js')
             .then(
-                function(registration) {
-                // Registration was successful
-                console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                function (registration) {
+                    // Registration was successful
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                    registration.unregister().then(function () {
+                        alert('unregistered');
+                    }).catch(function(err) {
+                        alert('unregister failed' + err.message);
+                    })
                 },
-                function(err) {
+                function (err) {
                     // registration failed :(
                     console.log('ServiceWorker registration failed: ', err);
                 }
             );
+
+        navigator.serviceWorker.addEventListener('message', function (evt) {
+            var message = JSON.parse(evt.data);
+
+            console.log('Service worker message ', message);
+
+            if (message.type === 'refresh') {
+                var pageRefresh = document.querySelector('.page__refresh');
+                pageRefresh.classList.add('refresh--visible');
+
+                pageRefresh.addEventListener('click', function () {
+                    location.reload();
+                });
+            }
+        })
     });
+}
+
+if (window.NodeList && !NodeList.prototype.forEach) {
+    NodeList.prototype.forEach = function (callback, thisArg) {
+        thisArg = thisArg || window;
+        for (var i = 0; i < this.length; i++) {
+            callback.call(thisArg, this[i], i, this);
+        }
+    };
 }
