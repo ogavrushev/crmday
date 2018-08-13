@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const db = require('./src/db');
+const log = require('./src/log');
 const PORT = process.env.PORT;
 
 const app = express();
@@ -14,6 +15,12 @@ app.get('/check', async (req, res) => {
 
 app.post('/save', async (req, res) => {
      try {
+         log
+             .backupToFile(JSON.stringify(req.body))
+             .catch(() => {
+                 console.log('failed to write file' , req.body);
+             });
+
          let saved = await db.setAsync(req.body.key, JSON.stringify(req.body));
 
          if (saved) {
@@ -21,7 +28,8 @@ app.post('/save', async (req, res) => {
          }
 
      } catch (e) {
-        res.json({saved: false, error: e.message});
+         console.log('save contact failed - ', req.body);
+         res.json({saved: false, error: e.message});
      }
 });
 
