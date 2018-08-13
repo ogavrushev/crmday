@@ -1,6 +1,6 @@
 //This is the service worker with the Cache-first network
 
-var cacheName = 'sipuni-crmday-kazan-v1';
+var cacheName = 'sipuni-crmday-kazan-v13';
 var files = [
     'https://fonts.googleapis.com/css?family=PT+Sans',
     'img/icons/apple-touch-icon.png',
@@ -14,7 +14,7 @@ var files = [
     'js/script.js'
 ];
 
-var noCache = [ '/check', '/save' , 'chrome-extension'];
+var noCache = [ '/check', '/save' , 'chrome-extension', 'yandex'];
 
 self.addEventListener('install', function(event) {
     console.info('[ServiceWorker] Event: Install');

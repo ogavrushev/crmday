@@ -17,7 +17,7 @@ app.post('/save', async (req, res) => {
          let saved = await db.setAsync(req.body.key, JSON.stringify(req.body));
 
          if (saved) {
-             res.json({saved: true});
+             res.json({saved: true, key: req.body.key});
          }
 
      } catch (e) {

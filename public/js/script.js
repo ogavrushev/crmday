@@ -1,10 +1,10 @@
 (function () {
 
     function uniqueId() {
-        return new Date().getUTCMilliseconds();
+        return new Date().getTime().toString();
     }
 
-    var KEY = uniqueId();
+    var KEY = 'form__' + uniqueId();
 
     function showThankYou() {
         var form = document.querySelector('.contact__form');
@@ -20,33 +20,23 @@
     }
 
     function post(data) {
-        localStorage.KEY = data;
-
-        alert('start post');
-
-        var request = new XMLHttpRequest();
-        request.open("POST", "/save", true);
-        request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-        request.onreadystatechange = function () {
-            if (request.readyState !== request.DONE) {
-                console.log('Not done');
-                return;
-            }
-
-            if (request.status !== 200) {
-                alert(request.status + ': ' + request.statusText);
-                console.log(request.status + ': ' + request.statusText);
-            } else {
-                alert('post completed');
-                localStorage.removeItem(KEY);
-                console.log(request.responseText);
-            }
-        };
-
-        request.send(data);
-        showThankYou();
+        return new Promise(function(resolve, reject) {
+            var request = new XMLHttpRequest();
+            request.open("POST", "/save", true);
+            request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+            request.onload = function () {
+                if (this.status >= 200 && this.status < 300) {
+                    resolve(JSON.parse(request.responseText));
+                } else {
+                    reject(request.status + ': ' + request.statusText)
+                }
+            };
+            request.onerror = function () {
+                reject(request.status + ': ' + request.statusText)
+            };
+            request.send(data);
+        });
     }
-
 
     function validate(data) {
         return !!data.contact;
@@ -64,7 +54,12 @@
         });
 
         if (validate(data)) {
-            post(JSON.stringify(data));
+            var json = JSON.stringify(data);
+            post(json)
+                .catch(function () {
+                    localStorage[data.key] = json;
+                });
+            showThankYou();
         }
 
         return false;
@@ -91,6 +86,19 @@
     }
 
     document.addEventListener('DOMContentLoaded', onDomReady);
+
+    setInterval(function () {
+        for ( var i = 0, len = localStorage.length; i < len; ++i ) {
+            var key = localStorage.key(i);
+            if (key.indexOf('form__') > -1) {
+                var data = localStorage.getItem( key );
+                post(data)
+                    .then(function(response) {
+                        localStorage.removeItem(response.key);
+                    });
+            }
+        }
+    }, 60 * 1000)
 })();
 
 if ('serviceWorker' in navigator) {
@@ -101,11 +109,6 @@ if ('serviceWorker' in navigator) {
                 function (registration) {
                     // Registration was successful
                     console.log('ServiceWorker registration successful with scope: ', registration.scope);
-                    registration.unregister().then(function () {
-                        alert('unregistered');
-                    }).catch(function(err) {
-                        alert('unregister failed' + err.message);
-                    })
                 },
                 function (err) {
                     // registration failed :(
