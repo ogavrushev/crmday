@@ -14,12 +14,13 @@ app.get('/check', async (req, res) => {
 });
 
 app.post('/save', async (req, res) => {
-     try {
-         log
-             .backupToFile(JSON.stringify(req.body))
-             .catch(() => {
-                 console.log('failed to write file' , req.body);
-             });
+
+    try {
+        log
+            .backupToFile(JSON.stringify(req.body))
+            .catch(() => {
+                console.log('failed to write file' , req.body);
+            });
 
          let saved = await db.setAsync(req.body.key, JSON.stringify(req.body));
 
