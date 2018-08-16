@@ -4,6 +4,10 @@ const {format} = require('date-fns');
 
 const Log = {
     backupToFile (data) {
+        if (typeof data === 'object') {
+            data = JSON.stringify(data);
+        }
+
         return new Promise((resolve, reject) => {
             fs.appendFile(
                 `${LOG_DIR}/${format(new Date(), 'YYYY-MM-DD')}.json`,
