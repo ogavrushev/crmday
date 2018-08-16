@@ -39,7 +39,7 @@
     }
 
     function validate(data) {
-        return !!data.contact;
+        return !!data.phone && !!data.email;
     }
 
     function onFormSubmit(e) {
