@@ -3,13 +3,26 @@
     {
       "name": "crmday:3001",
       "script": "server.js",
-      "watch": true,
+      "watch": false,
       "env": {
         "PORT": "3001",
         "NODE_ENV": "development"
       },
       "env_production": {
         "PORT": "3001",
+        "NODE_ENV": "production"
+      }
+    },
+    {
+      "name": "crmday_bot:3002",
+      "script": "tbot.js",
+      "watch": false,
+      "env": {
+        "PORT": "3002",
+        "NODE_ENV": "development"
+      },
+      "env_production": {
+        "PORT": "3002",
         "NODE_ENV": "production"
       }
     }

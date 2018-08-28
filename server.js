@@ -3,7 +3,6 @@ const bodyParser = require('body-parser');
 const PORT = process.env.PORT;
 const {format} = require('date-fns');
 const models = require('./src/models');
-const bot = require('./src/tbot');
 
 const app = express();
 app.use(bodyParser.json());
@@ -20,13 +19,11 @@ app.get('/check', (req, res) => {
 });
 
 app.post('/save', (req, res) => {
-
     try {
         req.body.date = format(new Date(), 'YYYY-MM-DD');
         let saved = models.saveContact(req.body);
 
         if (saved) {
-            bot.emit('newContact', req.body);
             res.json({saved: true, key: req.body.key});
         }
 
