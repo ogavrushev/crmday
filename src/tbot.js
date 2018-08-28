@@ -31,11 +31,14 @@ bot.onText(/\/start/, (msg) => {
 bot.onText(/\/end/, (msg) => {
     const chatId = msg.chat.id;
 
-    deleteChat(chatId).then(deleted => {
-        if (deleted) {
-            bot.sendMessage(chatId, 'Вы отписались от уведомлений crmday.sipuni.com');
-        }
-    });
+    deleteChat(chatId)
+        .catch(err => {
+            if (err) {
+                console.log('Чат не удален, возможно нет в бд', chatId)
+            }
+        });
+
+    bot.sendMessage(chatId, 'Вы отписались от уведомлений crmday.sipuni.com');
 });
 
 bot.on('newContact', function(contact) {
