@@ -42,12 +42,7 @@ bot.on('newContact', function(contact) {
     getChats().then(chats => {
         if (chats.length > 0) {
             chats.forEach(chatId => {
-                let str = `
-<b>Новый контакт от crmday.sipuni.com</b>
-${contact.name && `Имя - ${contact.name}`}
-${contact.phone && `Телефон - ${contact.phone}`}
-${contact.email && `Email - ${contact.email}`}
-`;
+                let str = `<b>Новый контакт от crmday.sipuni.com</b>\nИмя - ${contact.name || 'Не указано'}\nТелефон - ${contact.phone || 'Не указано'}\nEmail - ${contact.email || 'Не указано'}`;
                 bot.sendMessage(chatId, str, {parse_mode: 'HTML'})
             });
         }
