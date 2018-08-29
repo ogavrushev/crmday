@@ -100,9 +100,8 @@ header, main {
 .form__button {
     color: white;
     width: 100%;
-    max-width: 300px;
+    max-width: 400px;
     height: 8vh;
-    line-height: 6vh;
     padding: 0 20px;
     background-color: #64dd17;
     border: 1px solid transparent;
