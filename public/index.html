@@ -30,15 +30,17 @@
                             <label>Имя</label>
                             <input type="text" class="form__input" name="name" value="" autocomplete="off" autofocus>
                         </li>
-                        <li class="form__field">
-                            <label>Телефон</label>
-                            <input type="number" class="form__input" name="phone" value="" autocomplete="off">
-                        </li>
-                        <li class="form__field">
-                            <label>E-mail</label>
-                            <input type="text" class="form__input" name="email" value="" autocomplete="off">
-                            <input type="hidden" name="key" class="form__input" value="" id="form_key">
-                        </li>
+                        <div class="form__row">
+                            <li class="form__field">
+                                <label>Телефон</label>
+                                <input type="number" class="form__input" name="phone" value="" autocomplete="off">
+                            </li>
+                            <li class="form__field">
+                                <label>E-mail</label>
+                                <input type="email" class="form__input" name="email" value="" autocomplete="off">
+                                <input type="hidden" name="key" class="form__input" value="" id="form_key">
+                            </li>
+                        </div>
                         <li class="form__field form--actions">
                             <button type="submit" class="form__button">
                                 Отправить заявку
