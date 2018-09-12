@@ -33,7 +33,10 @@
                         <div class="form__row">
                             <li class="form__field">
                                 <label>Телефон</label>
-                                <input type="number" class="form__input" name="phone" value="" autocomplete="off">
+                                <div class="input-group prefix">
+                                    <span class="input-group-addon">+7</span>
+                                    <input type="tel" data-prefix="+7" class="form__input" name="phone" value="" autocomplete="off">
+                                </div>
                             </li>
                             <li class="form__field">
                                 <label>E-mail</label>

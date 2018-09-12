@@ -4,8 +4,6 @@
         return new Date().getTime().toString();
     }
 
-    var KEY = 'form__' + uniqueId();
-
     function showThankYou() {
         var form = document.querySelector('.contact__form');
         var thu = document.querySelector('.thank__you');
@@ -15,7 +13,9 @@
         form.reset();
 
         setTimeout(function () {
-            location.reload(true);
+            setFormKey();
+            form.classList.toggle('hidden');
+            thu.classList.toggle('hidden');
         }, 3000);
     }
 
@@ -50,8 +50,14 @@
         var data = {};
 
         inputs.forEach(function (input) {
-            data[input.name] = input.value;
+            var value = input.value;
+            if ('prefix' in input.dataset) {
+                value = input.dataset.prefix + input.value;
+            }
+            data[input.name] = value;
         });
+
+        console.log('formdata', data);
 
         if (validate(data)) {
             var json = JSON.stringify(data);
@@ -65,14 +71,19 @@
         return false;
     }
 
+    function setFormKey() {
+        var key = document.querySelector('#form_key');
+        key.value = 'form__' + uniqueId();
+    }
+
     function onDomReady() {
 
         var form = document.querySelector('[data-js="js--contact-form-submit"]');
-        var key = document.querySelector('#form_key');
-        key.value = KEY;
 
         form &&
         form.addEventListener('submit', onFormSubmit);
+
+        setFormKey();
 
         console.log('Dom ready...');
 
