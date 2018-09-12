@@ -1,6 +1,6 @@
 //This is the service worker with the Cache-first network
 
-var cacheName = 'sipuni-crmday-nizhni-v1';
+var cacheName = 'sipuni-crmday-nizhni-v2';
 var files = [
     'https://fonts.googleapis.com/css?family=PT+Sans',
     'img/icons/apple-touch-icon.png',
