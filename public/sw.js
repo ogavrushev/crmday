@@ -1,6 +1,6 @@
 //This is the service worker with the Cache-first network
 
-var cacheName = 'sipuni-crmday-nizhni-v2';
+var cacheName = 'sipuni-crmday-nizhni-v3';
 var files = [
     'https://fonts.googleapis.com/css?family=PT+Sans',
     'img/icons/apple-touch-icon.png',
@@ -8,7 +8,7 @@ var files = [
     'img/icons/favicon-32x32.png',
     'img/icons/favicon-16x16.png',
     'img/75.jpg',
-    'img/logo.svg',
+    'img/amocrm-logo.svg',
     'img/send.svg',
     'css/style.css',
     'js/script.js'
