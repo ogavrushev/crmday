@@ -51,7 +51,7 @@
 
         inputs.forEach(function (input) {
             var value = input.value;
-            if ('prefix' in input.dataset) {
+            if (value && ('prefix' in input.dataset)) {
                 value = input.dataset.prefix + input.value;
             }
             data[input.name] = value;
