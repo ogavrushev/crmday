@@ -49,6 +49,10 @@
         var inputs = document.querySelectorAll('input');
         var data = {};
 
+        if (location.search.indexOf('=slide') > -1) {
+            data.from_slide = 1;
+        }
+
         inputs.forEach(function (input) {
             var value = input.value;
             if (value && ('prefix' in input.dataset)) {
@@ -57,14 +61,19 @@
             data[input.name] = value;
         });
 
-        console.log('formdata', data);
-
         if (validate(data)) {
             var json = JSON.stringify(data);
             post(json)
                 .catch(function () {
                     localStorage[data.key] = json;
                 });
+
+            try {
+                yaCounter49947028.reachGoal('FORM_DATA', data);
+            } catch (e) {
+                console.warn('ym error', e.message);
+            }
+
             showThankYou();
         }
 
