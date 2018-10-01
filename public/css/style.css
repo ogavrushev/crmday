@@ -41,6 +41,11 @@ input::-webkit-inner-spin-button {
     position: relative;
 }
 
+.loading .form__header,
+.loading .form__body {
+    opacity: 0;
+}
+
 header, main {
     max-width: 960px;
     width: 100%;
@@ -193,8 +198,12 @@ h1,h2,h3,h4,h5,h6 {
     height: 6vh;
 }
 
-.hidden {
+.invisible {
     opacity: 0;
+}
+
+.hidden {
+    display: none;
 }
 
 .thank__you {
