@@ -81,27 +81,6 @@
         key.value = 'form__' + uniqueId();
     }
 
-    function showContent() {
-        var container = document.querySelector('#container');
-        var nonSlide = document.querySelectorAll('[data-js="non--slide"]');
-        var fromSlide = document.querySelectorAll('[data-js="from--slide"]');
-        var submit = document.querySelector('[type="submit"]');
-
-        if (location.search.indexOf('=slide') > -1) {
-            nonSlide.forEach(function(item) {
-                item.style.display = 'none';
-            });
-            submit.textContent = 'Участвовать';
-        } else {
-            fromSlide.forEach(function(item) {
-                item.style.display = 'none';
-            });
-            submit.textContent = 'Отправить заявку';
-        }
-
-        container.classList.remove('loading');
-    }
-
     function onDomReady() {
 
         var form = document.querySelector('[data-js="js--contact-form-submit"]');
@@ -116,7 +95,6 @@
             var viewWidth = window.visualViewport.width;
             var viewport = document.querySelector("meta[name=viewport]");
             viewport.setAttribute("content", "height=" + viewHeight + "px, width=" + viewWidth + "px, initial-scale=1.0, user-scalable=no");
-            showContent();
         }, 300);
 
     }
